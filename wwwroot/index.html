@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>Teste</title>
+        <link rel="stylesheet" href="css/site.css" />
+    </head>
+    <body>
+        <h1>Times</h1>
+        <h3>Novo Time</h3>
+        <form action="javascript:void(0);" method="POST" onsubmit="addTime()">
+            <input type="text" id="add-nome" placeholder="Nome do Time">
+            <input type="text" id="add-abrev" placeholder="Abrevia&ccedil;&atilde;o do nome">
+            <input type="text" id="add-cidade" placeholder="Nome da Cidade">
+            <input type="submit" value="Salvar">
+        </form>
+
+        <div id="editForm">
+            <h3>Editar Time</h3>
+            <form action="javascript:void(0);" onsubmit="updateTime()">
+                <input type="hidden" id="edit-id">
+                <input type="text" id="edit-nome">
+                <input type="text" id="edit-abrev">
+                <input type="text" id="edit-cidade">
+                <input type="submit" value="Salvar">
+                <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+            </form>
+        </div>
+
+        <div id="btnJogador">
+            <a href="jogador.html"><button>Lista de Jogadores</button></a>
+        </div>
+
+        <p id="counter"></p>
+
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Abrev</th>
+                <th>Cidade</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tbody id="times"></tbody>
+        </table>
+    </body>
+    <script src="js/time.js" asp-append-version="true"></script>
+    <script type="text/javascript">getTimes();</script>
+</html>
