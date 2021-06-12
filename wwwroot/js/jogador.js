@@ -1,6 +1,30 @@
 const uri = 'api/Jogadores';
 let jogadores = [];
+let times = [];
 
+function getTimes() {
+    fetch('api/Times')
+    .then(response => response.json())
+    .then(times => mostraTimes(times))
+    .catch(error => console.error('Error ao buscar times.', error));
+}
+
+function mostraTimes(listTimes) {
+    const select = document.getElementById('add-idtime');
+  
+    listTimes.forEach(time => {
+        var option = document.createElement('option');
+        option.id = "time"+time.id;
+        option.value = time.id;
+        option.appendChild(document.createTextNode(time.nome));
+
+        select.appendChild(option);
+    });
+
+    times = listTimes;
+}
+
+//Exibir jogadores
 function getJogadores() {
     fetch(uri)
     .then(response => response.json())
@@ -53,15 +77,21 @@ function mostraJogadores(listJogadores) {
         let td7 = tr.insertCell();
         let textNode7 = document.createTextNode(jogador.descricao);
         td7.appendChild(textNode7);
+
+        const time = times.find(time => time.id === jogador.idtime);
     
         let td8 = tr.insertCell();
-        td8.appendChild(editButton);
+        let textNode8 = document.createTextNode(time.nome);
+        td8.appendChild(textNode8);
     
         let td9 = tr.insertCell();
-        td9.appendChild(deleteButton);
+        td9.appendChild(editButton);
+    
+        let td10 = tr.insertCell();
+        td10.appendChild(deleteButton);
     });
 
-    Jogadores = listJogadores;
+    jogadores = listJogadores;
 }
 
 //Cadastrar jogador
@@ -73,6 +103,7 @@ function addJogador() {
     const num_partidas = document.getElementById('add-partidas');
     const num_gols = document.getElementById('add-gols');
     const descricao = document.getElementById('add-descricao');
+    const idtime = document.getElementById('add-idtime');
 
     const jogador = {
         nome: nome.value.trim(),
@@ -81,7 +112,8 @@ function addJogador() {
         peso: parseFloat(peso.value.trim()),
         num_partidas: parseInt(num_partidas.value.trim()),
         num_gols: parseInt(num_gols.value.trim()),
-        descricao: descricao.value.trim()
+        descricao: descricao.value.trim(),
+        idtime: parseInt(idtime.value.trim())
     };
 
     fetch(uri, {
@@ -102,17 +134,16 @@ function addJogador() {
         num_partidas.value = '';
         num_gols.value = '';
         descricao.value = '';
+        idtime.value = '';
     })
     .catch(error => console.error('Erro ao cadastrar jogador.', error));
 }
 
 //Editar jogador
 function displayEditForm(id) {
-    console.log(id);
     const jogador = jogadores.find(jogador => jogador.id === id);
-    console.log(jogadores);
     
-    //document.getElementById('edit-id').value = jogador.id;
+    document.getElementById('edit-id').value = jogador.id;
     document.getElementById('edit-nome').value = jogador.nome;
     document.getElementById('edit-idade').value = jogador.idade;
     document.getElementById('edit-altura').value = jogador.altura;
@@ -120,22 +151,22 @@ function displayEditForm(id) {
     document.getElementById('edit-partidas').value = jogador.num_partidas;
     document.getElementById('edit-gols').value = jogador.num_gols;
     document.getElementById('edit-descricao').value = jogador.descricao;
-    document.getElementById('edit-idtime').value = jogador.idtime;
+    //document.getElementById('edit-time').value = jogador.idtime;
     document.getElementById('editForm').style.display = 'block';
 }
 
 function updateJogador() {
     const jogadorId = document.getElementById('edit-id').value;
     const jogador = {
-      id: parseInt(jogadorId, 10),
+      id: parseInt(jogadorId),
       nome: document.getElementById('edit-nome').value.trim(),
-      idade: document.getElementById('edit-idade').value.trim(),
-      altura: document.getElementById('edit-altura').value.trim(),
-      peso: document.getElementById('edit-peso').value.trim(),
-      num_partidas: document.getElementById('edit-partidas').value.trim(),
-      num_gols: document.getElementById('edit-gols').value.trim(),
+      idade: parseInt(document.getElementById('edit-idade').value.trim()),
+      altura: parseFloat(document.getElementById('edit-altura').value.trim()),
+      peso: parseFloat(document.getElementById('edit-peso').value.trim()),
+      num_partidas: parseInt(document.getElementById('edit-partidas').value.trim()),
+      num_gols: parseInt(document.getElementById('edit-gols').value.trim()),
       descricao: document.getElementById('edit-descricao').value.trim(),
-      idtime: document.getElementById('edit-idtime').value.trim(),
+      //idtime: parseInt(document.getElementById('edit-time').value.trim()),
     };
   
     fetch(`${uri}/${jogadorId}`, {
