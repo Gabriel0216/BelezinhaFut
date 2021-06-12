@@ -10,7 +10,7 @@ namespace BelezinhaFut.Models
         public int Num_partidas {get; set;}
         public int Num_gols {get; set;}
         public string Descricao {get; set;}
-        public int Id_time {get; set;}
+        public int Idtime {get; set;}
         public Time Time {get; set;}
 
     }

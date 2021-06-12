@@ -56,6 +56,7 @@
 					<th scope="col">Número de partidas</th>
 					<th scope="col">Número de gols</th>
 					<th scope="col">Descrição</th>
+                    <th>Time</th>
 					<th></th>
 					<th></th>
 				</tr>
@@ -128,6 +129,10 @@
                                     placeholder="Breve descrição jogador" 
                                     id="add-descricao" 
                                 />
+							</div>
+							<div class="mb-3">
+                                <select name="idtime" id="add-idtime" class="form-select">
+                                </select>
 							</div>
 							<div class="text-center">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -206,6 +211,10 @@
                                     id="edit-descricao" 
                                 />
 							</div>
+							<div class="mb-3">
+                                <select name="idtime" id="edit-time" class="form-select">
+                                </select>
+							</div>
 							<div class="text-center">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
 								<input type="submit" class="btn btn-success" value="Salvar"/>
@@ -221,5 +230,6 @@
 	<script src="js/jogador.js" asp-append-version="true"></script>
 	<script type="text/javascript">
 		getJogadores();
+        getTimes();
 	</script>
 </html>
