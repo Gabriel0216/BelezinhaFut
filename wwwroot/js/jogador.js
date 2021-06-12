@@ -1,5 +1,7 @@
 const uri = 'api/Jogadores';
 let jogadores = [];
+var criarModal = new bootstrap.Modal(document.getElementById('criarModal'));
+var editarModal = new bootstrap.Modal(document.getElementById('EditarModal'));
 
 function getJogadores() {
     fetch(uri)
@@ -19,10 +21,12 @@ function mostraJogadores(listJogadores) {
         let editButton = button.cloneNode(false);
         editButton.innerText = 'Editar';
         editButton.setAttribute('onclick', `displayEditForm(${jogador.id})`);
+        editButton.setAttribute('class', `btn btn-secondary`);
     
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Excluir';
         deleteButton.setAttribute('onclick', `deleteJogador(${jogador.id})`);
+        deleteButton.setAttribute('class', `btn btn-secondary`);
     
         let tr = tBody.insertRow();
     
@@ -56,12 +60,17 @@ function mostraJogadores(listJogadores) {
     
         let td8 = tr.insertCell();
         td8.appendChild(editButton);
+        td8.setAttribute('class', `min`);
     
         let td9 = tr.insertCell();
         td9.appendChild(deleteButton);
+        td9.setAttribute('class', `min`);
     });
 
-    Jogadores = listJogadores;
+    jogadores = listJogadores;
+
+    criarModal.hide();
+    return false;
 }
 
 //Cadastrar jogador
@@ -108,11 +117,14 @@ function addJogador() {
 
 //Editar jogador
 function displayEditForm(id) {
+
+    editarModal.show();
+
     console.log(id);
     const jogador = jogadores.find(jogador => jogador.id === id);
     console.log(jogadores);
     
-    //document.getElementById('edit-id').value = jogador.id;
+    document.getElementById('edit-id').value = jogador.id;
     document.getElementById('edit-nome').value = jogador.nome;
     document.getElementById('edit-idade').value = jogador.idade;
     document.getElementById('edit-altura').value = jogador.altura;
@@ -120,8 +132,8 @@ function displayEditForm(id) {
     document.getElementById('edit-partidas').value = jogador.num_partidas;
     document.getElementById('edit-gols').value = jogador.num_gols;
     document.getElementById('edit-descricao').value = jogador.descricao;
-    document.getElementById('edit-idtime').value = jogador.idtime;
-    document.getElementById('editForm').style.display = 'block';
+    //document.getElementById('edit-idtime').value = jogador.idtime;
+    
 }
 
 function updateJogador() {
@@ -129,13 +141,13 @@ function updateJogador() {
     const jogador = {
       id: parseInt(jogadorId, 10),
       nome: document.getElementById('edit-nome').value.trim(),
-      idade: document.getElementById('edit-idade').value.trim(),
-      altura: document.getElementById('edit-altura').value.trim(),
-      peso: document.getElementById('edit-peso').value.trim(),
-      num_partidas: document.getElementById('edit-partidas').value.trim(),
-      num_gols: document.getElementById('edit-gols').value.trim(),
+      idade: parseInt(document.getElementById('edit-idade').value.trim()),
+      altura: parseFloat(document.getElementById('edit-altura').value.trim()),
+      peso: parseFloat(document.getElementById('edit-peso').value.trim()),
+      num_partidas: parseInt(document.getElementById('edit-partidas').value.trim()),
+      num_gols: parseInt(document.getElementById('edit-gols').value.trim()),
       descricao: document.getElementById('edit-descricao').value.trim(),
-      idtime: document.getElementById('edit-idtime').value.trim(),
+      //idtime: document.getElementById('edit-idtime').value.trim(),
     };
   
     fetch(`${uri}/${jogadorId}`, {
@@ -149,7 +161,7 @@ function updateJogador() {
     .then(() => getJogadores())
     .catch(error => console.error('Erro ao editar jogador.', error));
   
-    closeInput();
+    editarModal.hide();
   
     return false;
 }

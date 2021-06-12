@@ -1,5 +1,7 @@
 const uri = 'api/Times';
 let times = [];
+var criarModal = new bootstrap.Modal(document.getElementById('criarModal'));
+var editarModal = new bootstrap.Modal(document.getElementById('EditarModal'));
 
 //Exibir times
 function getTimes() {
@@ -28,10 +30,12 @@ function mostraTimes(listaTimes) {
         let editButton = button.cloneNode(false);
         editButton.innerText = 'Editar';
         editButton.setAttribute('onclick', `displayEditForm(${time.id})`);
+        editButton.setAttribute('class', `btn btn-secondary`);
     
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Excluir';
         deleteButton.setAttribute('onclick', `deleteTime(${time.id})`);
+        deleteButton.setAttribute('class', `btn btn-secondary`);
     
         let tr = tBody.insertRow();
     
@@ -49,9 +53,11 @@ function mostraTimes(listaTimes) {
     
         let td4 = tr.insertCell();
         td4.appendChild(editButton);
+        td4.setAttribute('class', `min`);
     
         let td5 = tr.insertCell();
         td5.appendChild(deleteButton);
+        td5.setAttribute('class', `min`);
     });
 
     times = listaTimes;
@@ -85,17 +91,23 @@ function addTime() {
         cidade.value = '';
     })
     .catch(error => console.error('Erro ao cadastrar time.', error));
+
+    
+    criarModal.hide();
+    return false;
 }
 
 //Editar time
 function displayEditForm(id) {
+
+    editarModal.show();
+
     const time = times.find(time => time.id === id);
     
     document.getElementById('edit-id').value = time.id;
     document.getElementById('edit-nome').value = time.nome;
     document.getElementById('edit-abrev').value = time.abrev;
     document.getElementById('edit-cidade').value = time.cidade;
-    document.getElementById('editForm').style.display = 'block';
 }
 
 function updateTime() {
@@ -117,14 +129,10 @@ function updateTime() {
     })
     .then(() => getTimes())
     .catch(error => console.error('Erro ao editar time.', error));
-  
-    closeInput();
-  
-    return false;
-}
+    
+    editarModal.hide();
 
-function closeInput() {
-    document.getElementById('editForm').style.display = 'none';
+    return false;
 }
 
 //Excluir time

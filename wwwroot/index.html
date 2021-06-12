@@ -1,47 +1,151 @@
 <html>
-    <head>
-        <title>Teste</title>
-        <link rel="stylesheet" href="css/site.css" />
-    </head>
-    <body>
-        <h1>Times</h1>
-        <h3>Novo Time</h3>
-        <form action="javascript:void(0);" method="POST" onsubmit="addTime()">
-            <input type="text" id="add-nome" placeholder="Nome do Time">
-            <input type="text" id="add-abrev" placeholder="Abrevia&ccedil;&atilde;o do nome">
-            <input type="text" id="add-cidade" placeholder="Nome da Cidade">
-            <input type="submit" value="Salvar">
-        </form>
+	<head>
+		<title>BelezinhaFut - Times</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="css/site.css" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">BelezinhaFut</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNav"
+					aria-controls="navbarNav"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#">Início</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="Jogador.html">Jogadores</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+        <br>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-sm-8">
+					<h1>Times</h1>
+				</div>
+				<div class="col-12 col-sm-4 text-end">
+					<button type="button" class="btn btn-primary" onclick="criarModal.show()">
+						Cadastrar Time
+					</button>
+				</div>
+			</div>
+			<hr />
 
-        <div id="editForm">
-            <h3>Editar Time</h3>
-            <form action="javascript:void(0);" onsubmit="updateTime()">
-                <input type="hidden" id="edit-id">
-                <input type="text" id="edit-nome">
-                <input type="text" id="edit-abrev">
-                <input type="text" id="edit-cidade">
-                <input type="submit" value="Salvar">
-                <a onclick="closeInput()" aria-label="Close">&#10006;</a>
-            </form>
-        </div>
+			<p id="counter"></p>
 
-        <div id="btnJogador">
-            <a href="jogador.html"><button>Lista de Jogadores</button></a>
-        </div>
+			<table class="table table-striped table-hover">
+				<tr>
+					<th scope="col">Nome</th>
+					<th scope="col">Abrev</th>
+					<th scope="col">Cidade</th>
+					<th></th>
+					<th></th>
+				</tr>
+				<tbody id="times"></tbody>
+			</table>
+		</div>
 
-        <p id="counter"></p>
-
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>Abrev</th>
-                <th>Cidade</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tbody id="times"></tbody>
-        </table>
-    </body>
-    <script src="js/time.js" asp-append-version="true"></script>
-    <script type="text/javascript">getTimes();</script>
+		<div class="modal fade" id="criarModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Cadastrar Time</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="javascript:void(0);" method="POST" onsubmit="addTime()">
+							<div class="mb-3">
+								<label for="add-nome" class="form-label">Nome do Time</label>
+								<input type="text" class="form-control" placeholder="Nome do Time" id="add-nome" />
+							</div>
+							<div class="mb-3">
+								<label for="add-abrev" class="form-label">Abreviação do nome</label>
+								<input
+									type="text"
+									class="form-control"
+									placeholder="Abreviação do nome"
+									id="add-abrev"
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="add-cidade" class="form-label">Nome da Cidade</label>
+								<input 
+                                    type="text" 
+                                    class="form-control" 
+                                    placeholder="Nome da Cidade" 
+                                    id="add-cidade" 
+                                />
+							</div>
+							<div class="text-center">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+								<input type="submit" class="btn btn-success" value="Salvar"/>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="modal fade" id="EditarModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Editar Time</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form action="javascript:void(0);" onsubmit="updateTime()">
+                            <input type="hidden" id="edit-id" />
+							<div class="mb-3">
+								<label for="edit-nome" class="form-label">Nome do Time</label>
+								<input type="text" class="form-control" placeholder="Nome do Time" id="edit-nome" />
+							</div>
+							<div class="mb-3">
+								<label for="edit-abrev" class="form-label">Abreviação do nome</label>
+								<input
+									type="text"
+									class="form-control"
+									placeholder="Abreviação do nome"
+									id="edit-abrev"
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="edit-cidade" class="form-label">Nome da Cidade</label>
+								<input 
+                                    type="text" 
+                                    class="form-control" 
+                                    placeholder="Nome da Cidade" 
+                                    id="edit-cidade" 
+                                />
+							</div>
+							<div class="text-center">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+								<input type="submit" class="btn btn-success" value="Salvar" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/time.js" asp-append-version="true"></script>
+	<script type="text/javascript">
+		getTimes();
+	</script>
 </html>
