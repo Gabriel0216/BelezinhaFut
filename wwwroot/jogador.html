@@ -131,7 +131,8 @@
                                 />
 							</div>
 							<div class="mb-3">
-                                <select name="idtime" id="add-idtime" class="form-select">
+								<label for="add-idtime" class="form-label">Time do jogador</label>
+								<select name="idtime" id="add-idtime" class="form-select">
                                 </select>
 							</div>
 							<div class="text-center">
@@ -212,7 +213,7 @@
                                 />
 							</div>
 							<div class="mb-3">
-                                <select name="idtime" id="edit-time" class="form-select">
+                                <select name="idtime" id="edit-idtime" class="form-select">
                                 </select>
 							</div>
 							<div class="text-center">
@@ -229,7 +230,7 @@
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/jogador.js" asp-append-version="true"></script>
 	<script type="text/javascript">
-		getJogadores();
         getTimes();
+		getJogadores();
 	</script>
 </html>

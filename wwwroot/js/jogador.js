@@ -13,6 +13,7 @@ function getTimes() {
 
 function mostraTimes(listTimes) {
     const select = document.getElementById('add-idtime');
+    const selectEdit = document.getElementById('edit-idtime');
   
     listTimes.forEach(time => {
         var option = document.createElement('option');
@@ -21,6 +22,7 @@ function mostraTimes(listTimes) {
         option.appendChild(document.createTextNode(time.nome));
 
         select.appendChild(option);
+        selectEdit.appendChild(option);
     });
 
     times = listTimes;
@@ -82,10 +84,16 @@ function mostraJogadores(listJogadores) {
         let textNode7 = document.createTextNode(jogador.descricao);
         td7.appendChild(textNode7);
 
-        const time = times.find(time => time.id === jogador.idtime);
+        if(jogador.id_time === 0){
+            jogador.id_time = 1;
+        }
 
-        console.log("Times: ", times);
-        console.log("Time do jogador: ", time);
+        const time = times.find(time => time.id === jogador.id_time);
+
+        // console.log("Times: ", times);
+        // console.log("Jogador: ", jogador);
+        // console.log("Time do jogador: ", jogador.idtime);
+        // console.log("Nome do time do jogador: ", time);
     
         let td8 = tr.insertCell();
         let textNode8 = document.createTextNode(time.nome);
@@ -115,6 +123,7 @@ function addJogador() {
     const descricao = document.getElementById('add-descricao');
     const idtime = document.getElementById('add-idtime');
 
+
     const jogador = {
         nome: nome.value.trim(),
         idade: parseInt(idade.value.trim()),
@@ -123,8 +132,12 @@ function addJogador() {
         num_partidas: parseInt(num_partidas.value.trim()),
         num_gols: parseInt(num_gols.value.trim()),
         descricao: descricao.value.trim(),
-        idtime: parseInt(idtime.value.trim())
+        Idtime: parseInt(idtime.value.trim())
     };
+
+    if(jogador.Idtime === null){
+        jogador.Idtime = 1;
+    }
 
     fetch(uri, {
         method: 'POST',
@@ -164,7 +177,7 @@ function displayEditForm(id) {
     document.getElementById('edit-partidas').value = jogador.num_partidas;
     document.getElementById('edit-gols').value = jogador.num_gols;
     document.getElementById('edit-descricao').value = jogador.descricao;
-    //document.getElementById('edit-idtime').value = jogador.idtime;
+    document.getElementById('edit-idtime').value = jogador.id_time;
     
 }
 
@@ -179,7 +192,7 @@ function updateJogador() {
       num_partidas: parseInt(document.getElementById('edit-partidas').value.trim()),
       num_gols: parseInt(document.getElementById('edit-gols').value.trim()),
       descricao: document.getElementById('edit-descricao').value.trim(),
-      //idtime: parseInt(document.getElementById('edit-time').value.trim()),
+      idtime: parseInt(document.getElementById('edit-idtime').value.trim()),
     };
   
     fetch(`${uri}/${jogadorId}`, {
